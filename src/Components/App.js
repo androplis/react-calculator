@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import Button from './Button';
 import Display from './Display';
 
+// Buttons
 const buttons = [
   { id: 'seven', symbol: 7 },
   { id: 'eight', symbol: 8 },
@@ -34,13 +35,11 @@ class App extends React.Component {
   }
   
   handleButtonClick = (symbol, id) => {
-    if (symbol === 'C') {
-      // Clear
+    if (symbol === 'C') { // Clear
       this.setState({display: '0', result: '', mode: 'D'});
     }
-    else if (this.state.mode != 'E') {
-      if (symbol === '=') {
-        // Equals
+    else if (this.state.mode != 'E') { // If not error mode
+      if (symbol === '=') { // Equals
         try {
           let newValue = eval(this.state.result + this.state.opperator + this.state.display);
           if (newValue.toString().length > 12) {
@@ -54,25 +53,22 @@ class App extends React.Component {
             this.setState({ mode: 'E', display: newValue})
           }
         }
-        catch (err) { // Catch Erros
+        catch (err) { // Catch Additional ErrosErrors
           this.setState({mode: 'E', display: 'ERROR'});
         }
       }
-      else if (symbol === '+' || symbol == "-" || symbol == '*' || symbol == '/') {
-        // Opperator
+      else if (symbol === '+' || symbol == "-" || symbol == '*' || symbol == '/') {  // Opperator
         this.setState( prevState => ({opperator: symbol, result: prevState.display, mode: 'D'}));
       }
-      else {
-        // Other
-        if (this.state.mode === 'D') {
-          // Replace 0 and switch to append
+      else { // Other
+        if (this.state.mode === 'D') {  // Replace 0 and switch from default to append mode
           this.setState( prevState => ({
             display: symbol + '', 
             result: prevState.display,
             mode: 'A'
           }));
         }
-        else if (this.state.mode === 'A') {
+        else if (this.state.mode === 'A') { // Append mode
           this.setState( prevState => ({
               display: prevState.display + symbol
           }));
